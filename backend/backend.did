@@ -3,6 +3,7 @@ type Translation =
    language: text;
    original: text;
    translated: text;
+   user: principal;
  };
 service : {
   addTranslation: (text, text, text) -> ();

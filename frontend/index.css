@@ -126,6 +126,45 @@ button:hover {
     transform: translateY(-2px);
 }
 
+#authSection {
+    margin-top: 1rem;
+}
+
+#loginBtn, #logoutBtn {
+    display: inline-block;
+    width: auto;
+    padding: 0.5rem 1rem;
+    margin-right: 1rem;
+}
+
+#userPrincipal {
+    font-size: 0.8rem;
+    color: var(--text-color);
+}
+
+.message {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 10px 20px;
+    border-radius: 4px;
+    color: white;
+    font-weight: bold;
+    z-index: 1000;
+}
+
+.message.error {
+    background-color: #e74c3c;
+}
+
+.message.success {
+    background-color: #2ecc71;
+}
+
+.message.info {
+    background-color: #3498db;
+}
+
 @media (max-width: 600px) {
     .container {
         margin: 1rem;

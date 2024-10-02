@@ -1,6 +1,7 @@
 export const idlFactory = ({ IDL }) => {
   const Translation = IDL.Record({
     'translated' : IDL.Text,
+    'user' : IDL.Principal,
     'language' : IDL.Text,
     'original' : IDL.Text,
   });

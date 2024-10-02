@@ -1,3 +1,4 @@
+import { AuthClient } from "@dfinity/auth-client";
 import { backend } from 'declarations/backend';
 
 const inputText = document.getElementById('inputText');
@@ -6,6 +7,47 @@ const translateBtn = document.getElementById('translateBtn');
 const outputText = document.getElementById('outputText');
 const speakBtn = document.getElementById('speakBtn');
 const translationHistory = document.getElementById('translationHistory');
+const loginBtn = document.getElementById('loginBtn');
+const logoutBtn = document.getElementById('logoutBtn');
+const userPrincipal = document.getElementById('userPrincipal');
+const mainContent = document.getElementById('mainContent');
+
+let authClient;
+
+async function initAuth() {
+    authClient = await AuthClient.create();
+    if (await authClient.isAuthenticated()) {
+        handleAuthenticated();
+    }
+}
+
+loginBtn.onclick = async () => {
+    await authClient.login({
+        identityProvider: "https://identity.ic0.app/#authorize",
+        onSuccess: handleAuthenticated,
+    });
+};
+
+logoutBtn.onclick = async () => {
+    await authClient.logout();
+    handleUnauthenticated();
+};
+
+function handleAuthenticated() {
+    loginBtn.style.display = 'none';
+    logoutBtn.style.display = 'inline-block';
+    mainContent.style.display = 'block';
+    const identity = authClient.getIdentity();
+    userPrincipal.textContent = identity.getPrincipal().toText();
+    updateTranslationHistory();
+}
+
+function handleUnauthenticated() {
+    loginBtn.style.display = 'inline-block';
+    logoutBtn.style.display = 'none';
+    mainContent.style.display = 'none';
+    userPrincipal.textContent = '';
+}
 
 translateBtn.addEventListener('click', translateText);
 speakBtn.addEventListener('click', speakTranslation);
@@ -30,10 +72,7 @@ async function translateText() {
             outputText.textContent = translatedText;
             showMessage('Translation complete!', 'success');
             
-            // Add translation to backend
             await backend.addTranslation(text, translatedText, getLanguageName(targetLang));
-            
-            // Update translation history
             updateTranslationHistory();
         } else {
             showMessage('Translation error. Please try again.', 'error');
@@ -86,5 +125,4 @@ function showMessage(message, type) {
     }, 3000);
 }
 
-// Initialize translation history on page load
-updateTranslationHistory();
+initAuth();

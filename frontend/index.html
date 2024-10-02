@@ -11,8 +11,13 @@
     <div class="container">
         <header>
             <h1>Elegant Translator</h1>
+            <div id="authSection">
+                <button id="loginBtn">Login</button>
+                <button id="logoutBtn" style="display: none;">Logout</button>
+                <span id="userPrincipal"></span>
+            </div>
         </header>
-        <main>
+        <main id="mainContent" style="display: none;">
             <div class="translation-area">
                 <textarea id="inputText" placeholder="Enter English text here"></textarea>
                 <div class="controls">

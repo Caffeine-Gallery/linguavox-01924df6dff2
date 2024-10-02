@@ -4,6 +4,7 @@ import type { IDL } from '@dfinity/candid';
 
 export interface Translation {
   'translated' : string,
+  'user' : Principal,
   'language' : string,
   'original' : string,
 }
